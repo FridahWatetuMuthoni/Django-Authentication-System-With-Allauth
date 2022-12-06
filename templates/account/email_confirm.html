@@ -1,0 +1,48 @@
+{% extends '../base.html' %}
+{% load i18n %}
+{% load account %}
+
+
+{% block content %}
+
+{% if confirmation %}
+{% user_display confirmation.email_address.user as user_display %}
+
+<section class="w-100 mt-5">
+<div class="card w-50 shadow p-3 mx-auto mt-5">
+  <h4 class="card-header text-primary">
+    Email Confirmation
+  </h4>
+  <div class="card-body">
+    <h5 class="card-title">Confirm E-mail Address
+</h5>
+    <p class="card-text">
+        Please confirm that watetu@gmail.com is an e-mail address for user watetu.
+    </p>
+    <form action="{% url 'account_confirm_email' confirmation.key %}" method="post">
+        {% csrf_token %}
+        <button type="'submit" class="btn btn-primary">Confirm</button>
+    </form>
+  </div>
+</div>
+</section>
+
+{% else %}
+{% url 'account_email' as email_url %}
+<div class="row w-100">
+    <div class="col-sm-6 mx-auto">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title"> Email Link expired</h5>
+        <p class="card-text">This e-mail confirmation link expired or is invalid.
+           Please click the below link to request for a new  confirmatione-mail
+        </p>
+        <a href="{{ email_url }}" class="btn btn-primary">Request Email</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endif %}
+
+{% endblock %}

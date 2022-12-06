@@ -1,0 +1,64 @@
+{% extends '../base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+
+
+{% block content %}
+<section class="w-100 row mt-5">
+
+  
+<form class="col-md-8 col-lg-5 shadow p-5 mx-auto mt-5" method="post" action="{% url 'account_signup' %}">
+    {% csrf_token %}
+    <h3 class="mb-4">Registration Form</h3>
+<section  class="mb-3">
+    {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="my-2">
+                <strong class="text-danger">{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="my-2">
+            <strong class="text-danger">{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+  </section>
+
+  <div class="mb-3">
+    <label for="username" class="form-label">Username</label>
+    <input type="text" class="form-control" id="username" name="username" required placeholder="Enter your username">
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="email" required placeholder="Email Address">
+  </div>
+  <div class="mb-3">
+    <label for="phone" class="form-label">Phone Number</label>
+    <input type="text" class="form-control" id="phone" name="phone_number" required placeholder="+25425457899">
+  </div>
+
+    <div class="form-group my-3">
+    <label for="gender">Gender</label>
+    <select class="form-control" id="gender" name="gender">
+      <option value="Female">Female</option>
+      <option value="Male">Male</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+  
+  <div class="mb-3">
+    <label for="password1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="password1" name="password1" required>
+  </div>
+  <div class="mb-3">
+    <label for="password2" class="form-label">Password(again)</label>
+    <input type="password" class="form-control" id="password2" name="password2" required>
+  </div>
+  
+  <button type="submit" class="btn btn-primary my-3">Submit</button>
+</form>
+</section> 
+{% endblock %}

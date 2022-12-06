@@ -1,0 +1,22 @@
+{% extends '../base.html' %}
+{% load i18n %}
+
+{% block content %}
+<section>
+    <div class="row w-100 mt-5">
+    <div class="col-sm-6 w-50 p-5 mt-5 mx-auto">
+    <div class="card p-5">
+      <div class="card-body">
+        <h5 class="card-title text-primary">SignOut</h5>
+        <p class="card-text my-3">Are you sure you want to sign out ?</p>
+        <form action="{% url 'account_logout' %}" method="post">
+            {% csrf_token %}
+        <button type="'submit" class="btn btn-primary">Sign Out</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+    </div>
+</section>
+{% endblock %}

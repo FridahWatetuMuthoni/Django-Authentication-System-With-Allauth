@@ -1,0 +1,52 @@
+{% extends '../base.html' %}
+{% load i18n %}
+{% load account socialaccount %}
+
+
+{% block content %}
+<section class="w-100 row mt-5">
+<form class="col-md-8 col-lg-5 shadow p-5 mx-auto mt-5" method="post" action="{% url 'account_login' %}">
+      <h3 class="mb-4">Login Form</h3>
+      <section  class="mb-3">
+    {% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+            <div class="my-2">
+                <strong class="text-danger">{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="my-2">
+            <strong class="text-danger">{{ error|escape }}</strong>
+        </div>
+    {% endfor %}
+{% endif %}
+  </section>
+
+    {% csrf_token %}
+  <div class="mb-3">
+    <label for="email" class="form-label">Email address</label>
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" name="login" required>
+    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">Password</label>
+    <input type="password" class="form-control" id="exampleInputPassword1" name="password" required>
+  </div>
+  <section class="row mt-4">
+    <div class="col d-flex justify-content-center">
+    <div class="mb-3 form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" name="remember">
+    <label class="form-check-label" for="exampleCheck1">Remember me</label>
+  </div>
+    </div>
+    <div class="col">
+        <a  href="{% url 'account_reset_password' %}"> Forgot Password?</a>
+    </div>
+  </section>
+
+  <button type="submit" class="btn btn-primary my-3">Submit</button>
+</form>
+</section> 
+{% endblock %}

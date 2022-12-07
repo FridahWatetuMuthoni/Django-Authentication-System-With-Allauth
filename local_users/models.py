@@ -10,8 +10,9 @@ GENDER = (('Female', 'Female'), ('Male', 'Male'), ('Other', 'Other'),)
 
 
 class User(AbstractUser):
-    phone_number = models.IntegerField(null=True)
-    gender = models.CharField(max_length=200, choices=GENDER, null=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    gender = models.CharField(
+        max_length=200, choices=GENDER, null=True, blank=True)
 
 
 class Profile(models.Model):

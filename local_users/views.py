@@ -1,7 +1,10 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Profile
-from allauth.account.views import PasswordChangeView
+from .forms import ProfileForm, UpdateUserForm
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
 
 
 # Create your views here.
@@ -18,22 +21,30 @@ def profile(request):
     return render(request, './profile.html', context)
 
 
-class CustomPasswordChangeView(PasswordChangeView):
-    success_url = 'profile'
+@login_required(login_url='account_login')
+def update_profile(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    profile_form = ProfileForm(instance=profile)
+    user_form = UpdateUserForm(instance=request.user)
+
+    if request.method == 'POST':
+        profile_form = ProfileForm(
+            request.POST, request.FILES, instance=profile)
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+
+        if profile_form.is_valid() and user_form.is_valid():
+            profile_form.save()
+            user_form.save()
+            return redirect('profile')
+
+    context = {
+        "user_form": user_form,
+        "profile_form": profile_form
+    }
+
+    return render(request, 'update_profile.html', context)
 
 
-"""
-from profile import views
-...
-    url(r'accounts/password/change', views.custom_password_change),
-    url(r'^accounts/', include('allauth.urls')),
-
-    class CustomPasswordChangeView(PasswordChangeView):
-    
-    @property
-    def success_url(self):
-        print 'start'
-        return '/unknown/'
-
-custom_password_change = login_required(CustomPasswordChangeView.as_view())
-"""
+class CustomChangePasswordView(LoginRequiredMixin, PasswordChangeView):
+    template_name = 'account/password_change.html'
+    success_url = "profile"

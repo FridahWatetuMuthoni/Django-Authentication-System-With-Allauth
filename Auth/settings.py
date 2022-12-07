@@ -101,8 +101,10 @@ LOGOUT_REDIRECT_URL = 'home'
 ACCOUNT_SIGNUP_REDIRECT_URL = "todos"
 LOGIN_URL = 'account_login'
 
+
 AUTH_USER_MODEL = 'local_users.User'
 ACCOUNT_FORMS = {'signup': 'local_users.forms.CustomSignupForm'}
+#ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 
 
 # Password validation
